@@ -1,2 +1,0 @@
-# FuzzieApp
-Fullstack Saas Project
