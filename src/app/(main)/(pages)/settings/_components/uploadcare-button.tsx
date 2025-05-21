@@ -1,53 +1,32 @@
 "use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as LR from "@uploadcare/blocks";
 import { useRouter } from "next/navigation";
 
-// Props type
 type Props = {
-  onUpload: (cdnUrl: string) => any;
+  onUpload: (e: string) => any;
 };
 
-// Register Uploadcare Blocks
 LR.registerBlocks(LR);
 
 const UploadCareButton = ({ onUpload }: Props) => {
   const router = useRouter();
-  const ctxProviderRef = useRef<HTMLElement | null>(null);
-  const [isMounted, setIsMounted] = useState(false);
+  const ctxProviderRef = useRef<
+    typeof LR.UploadCtxProvider.prototype & LR.UploadCtxProvider
+  >(null);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isMounted) return;
-
     const handleUpload = async (e: any) => {
-      const cdnUrl = e.detail?.cdnUrl;
-      if (!cdnUrl) return;
-
-      const file = await onUpload(cdnUrl);
+      const file = await onUpload(e.detail.cdnUrl);
       if (file) {
         router.refresh();
       }
     };
-
-    const el = ctxProviderRef.current;
-
-    if (el) {
-      el.addEventListener("file-upload-success", handleUpload);
-    }
-
-    return () => {
-      if (el) {
-        el.removeEventListener("file-upload-success", handleUpload);
-      }
-    };
-  }, [onUpload, router, isMounted]);
-
-  if (!isMounted) return null; // ⬅️ Don't render during SSR
+    ctxProviderRef.current.addEventListener(
+      "file-upload-success",
+      handleUpload
+    );
+  }, []);
 
   return (
     <div>
@@ -55,7 +34,7 @@ const UploadCareButton = ({ onUpload }: Props) => {
 
       <lr-file-uploader-regular
         ctx-name="my-uploader"
-        css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
+        css-src={`https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css`}
       />
 
       <lr-upload-ctx-provider ctx-name="my-uploader" ref={ctxProviderRef} />

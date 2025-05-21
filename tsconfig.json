@@ -20,15 +20,17 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["@uploadcare/blocks/types/jsx"]
   },
   "include": [
-    "src",
-    "src/custom-elements.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "next.config.mjs",
+    "next.config.js",
+    "next.config.js"
   ],
 
   "exclude": ["node_modules"]

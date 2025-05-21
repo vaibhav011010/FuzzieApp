@@ -1,11 +1,24 @@
 import ProfileForm from "@/components/forms/profile-form";
+import { db } from "@/lib/db";
 import React from "react";
 import ProfilePicture from "./_components/profile-picture.tsx";
 
 type Props = {};
 
 const setting = (props: Props) => {
-  // WIP: wireup proifle
+  // const removeProfileImage = async () => {
+  //   'use server'
+  //   const response = await db.user.update({
+  //     where: {
+  //        clerkId: authUser.id,
+  //     },
+  //     data: {
+  //       profileImage: '',
+  //     },
+  //   })
+  //   return response
+  // }
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="sticky top-0 z-[10] flex items-center justify-between border-b bg-background/50 p-6 text-4xl backdrop-blur-lg">
@@ -18,7 +31,7 @@ const setting = (props: Props) => {
             Add or update your information
           </p>
         </div>
-        <ProfilePicture userImage={null} onUpload={undefined} />
+        {/* <ProfilePicture userImage={null} onUpload={undefined} /> */}
         <ProfileForm />
       </div>
     </div>
